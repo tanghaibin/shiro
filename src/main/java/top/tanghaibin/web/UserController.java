@@ -1,0 +1,42 @@
+package top.tanghaibin.web;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import top.tanghaibin.entity.User;
+
+import javax.servlet.http.HttpServletRequest;
+
+
+/**
+ * Created by Administrator on 2016/4/18.
+ */
+@Controller
+@RequestMapping("user")
+public class UserController {
+
+    @RequestMapping("login")
+    public String login(User user,HttpServletRequest request){
+        Subject subject = SecurityUtils.getSubject();
+       subject.logout();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken();
+        usernamePasswordToken.setUsername(user.getUsername());
+        usernamePasswordToken.setPassword(user.getPswd().toCharArray());
+        try{
+            subject.login(usernamePasswordToken);
+        }catch (UnknownAccountException e){
+            request.setAttribute("msg","账户不存在");
+            return "error";
+        }
+        return "main";
+    }
+
+    public @ResponseBody String delete(){
+        return "delete done......";
+    }
+}
