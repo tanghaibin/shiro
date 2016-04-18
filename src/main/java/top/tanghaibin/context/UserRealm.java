@@ -1,9 +1,6 @@
 package top.tanghaibin.context;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -20,11 +17,12 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String username = authenticationToken.getPrincipal().toString();
-        String password = authenticationToken.getCredentials().toString();
-//        if("tanghaibin".equals(user.getUsername()) && "123".equals(user.getPswd())){
-//            return new SimpleAuthenticationInfo(user.getUsername(), user.getPswd(), getName());
-//        }
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
+        String username = usernamePasswordToken.getUsername();
+        String pswd = new String(usernamePasswordToken.getPassword());
+        if("tanghaibin".equals(username) && "123".equals(pswd)){
+            return new SimpleAuthenticationInfo(username, pswd, getName());
+        }
 
         return null;
     }
