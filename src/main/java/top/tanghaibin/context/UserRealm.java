@@ -2,9 +2,13 @@ package top.tanghaibin.context;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import top.tanghaibin.entity.User;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/4/18.
@@ -12,7 +16,16 @@ import top.tanghaibin.entity.User;
 public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        Set<String> roleStrings = new HashSet<String>();
+        Set<String> permissionStrings = new HashSet<String>();
+
+        permissionStrings.add("user:add");
+
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.setRoles(roleStrings);
+        authorizationInfo.setStringPermissions(permissionStrings);
+
+        return authorizationInfo;
     }
 
     @Override

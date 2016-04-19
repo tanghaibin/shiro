@@ -1,9 +1,8 @@
 package top.tanghaibin.web;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +26,19 @@ public class UserController {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken();
         usernamePasswordToken.setUsername(user.getUsername());
         usernamePasswordToken.setPassword(user.getPswd().toCharArray());
-        try{
-            subject.login(usernamePasswordToken);
-        }catch (UnknownAccountException e){
-            request.setAttribute("msg","账户不存在");
-            return "error";
-        }
+        subject.login(usernamePasswordToken);
         return "main";
     }
 
+    @RequestMapping("delete")
+    @RequiresPermissions("user:delete")
     public @ResponseBody String delete(){
         return "delete done......";
+    }
+
+    @RequestMapping("add")
+    @RequiresPermissions("user:add")
+    public @ResponseBody String add(){
+        return "add done......";
     }
 }
