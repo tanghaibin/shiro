@@ -34,10 +34,10 @@
 		<!--</property>-->
 		<property name="filterChainDefinitions">
 			<value>
-				/user/login = anon
+				/user/login = anon  <!--表示访问这个路径可以匿名使用-->
 				/index.jsp = anon
-				/login.jsp = authc
-				/** = user
+				<!--/login.jsp = authc-->
+				/** = user   <!--表示访问这个路径所有资源都必须登录-->
 			</value>
 		</property>
 	</bean>
@@ -45,6 +45,7 @@
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<constructor-arg value="sid"/>
 		<property name="httpOnly" value="true"/>
+		<!-- sessionIdCookie：maxAge=-1表示浏览器关闭时失效此Cookie；-->
 		<property name="maxAge" value="180000"/>
 	</bean>
 	<!-- 会话管理器 -->

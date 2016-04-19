@@ -41,4 +41,9 @@ public class UserController {
     public @ResponseBody String add(){
         return "add done......";
     }
+
+    @RequestMapping("pull")
+    public @ResponseBody String getUser(){
+        return "pull done......";
+    }
 }
